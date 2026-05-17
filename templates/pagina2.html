@@ -3,6 +3,33 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+/* BOTÃO CORAÇÃO */
+.btn-coracao {
+    background: #ff4d6d;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    font-size: 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
+    animation: pulse 1.2s infinite;
+}
+
+/* ANIMAÇÃO PULSAR */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+.btn-coracao:active {
+    transform: scale(0.95);
+}
+</style>
+
 </head>
 
 <body>
@@ -14,47 +41,59 @@ Cada momento passado juntos é uma lembrança…<br>
 cada lembrança está guardada no meu coração 💞
 </h1>
 
-<!-- BOTÃO DA MÚSICA -->
-<button id="btnMusica">Toca-me 💖</button>
+<!-- BOTÃO MÚSICA -->
+<button id="btnMusica" class="btn-coracao">Toca-me 💖</button>
 
-<!-- ÁUDIO -->
-<audio id="musica" loop>
+<!-- ÁUDIO (IMPORTANTE: playsinline + preload) -->
+<audio id="musica" loop playsinline preload="auto">
     <source src="{{ url_for('static', filename='musica.mp3') }}" type="audio/mp3">
 </audio>
 
 <!-- GALERIA -->
 <div class="galeria">
   {% for i in range(1,10) %}
-    <img src="{{ url_for('static', filename='fotos/foto' ~ i ~ '.JPG') }}">
+    <img src="{{ url_for('static', filename='fotos/foto' ~ i ~ '.jpg') }}">
   {% endfor %}
 </div>
 
 <br><br>
 
-<!-- BOTÃO CONTINUAR -->
 <a href="{{ url_for('pagina3') }}">
   <button>Continuar 💖</button>
 </a>
 
 </div>
 
-<!-- SCRIPT DA MÚSICA -->
+<!-- SCRIPT MUSICA (VERSÃO MOBILE 100% FUNCIONAL) -->
 <script>
 const btn = document.getElementById("btnMusica");
 const musica = document.getElementById("musica");
 
 let tocou = false;
 
+// FORÇA DESBLOQUEIO NO MOBILE
+function desbloquearAudio() {
+    musica.play().then(() => {
+        musica.pause();
+        musica.currentTime = 0;
+    }).catch(() => {});
+}
+
+document.body.addEventListener("touchstart", desbloquearAudio, { once: true });
+document.body.addEventListener("click", desbloquearAudio, { once: true });
+
 btn.addEventListener("click", async () => {
-    if (!tocou) {
-        try {
-            await musica.play();
-            tocou = true;
-            btn.innerText = "A tocar 💞";
-            btn.disabled = true;
-        } catch (e) {
-            console.log("Erro ao tocar música:", e);
-        }
+    if (tocou) return;
+
+    try {
+        await musica.play();
+        tocou = true;
+        btn.innerText = "A tocar 💞";
+        btn.style.animation = "none";
+        btn.disabled = true;
+    } catch (e) {
+        console.log("Erro ao tocar:", e);
+        alert("Toca novamente no botão 💖");
     }
 });
 </script>
