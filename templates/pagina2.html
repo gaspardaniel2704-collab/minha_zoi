@@ -13,7 +13,6 @@
     font-size: 18px;
     border-radius: 30px;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
     animation: pulse 1.2s infinite;
 }
 
@@ -21,10 +20,6 @@
     0% { transform: scale(1); }
     50% { transform: scale(1.15); }
     100% { transform: scale(1); }
-}
-
-.btn-coracao:active {
-    transform: scale(0.95);
 }
 </style>
 
@@ -39,18 +34,18 @@ Cada momento passado juntos é uma lembrança…<br>
 cada lembrança está guardada no meu coração 💞
 </h1>
 
-<!-- BOTÃO MÚSICA -->
-<button id="btnMusica" class="btn-coracao">Toca-me 💖</button>
+<!-- BOTÃO -->
+<button id="btnMusica" class="btn-coracao">Toca-me </button>
 
-<!-- ÁUDIO (SEM autoplay!) -->
-<audio id="musica" loop preload="auto">
+<!-- ÁUDIO SIMPLES (SEM preload complexo, SEM autoplay) -->
+<audio id="musica" loop>
     <source src="{{ url_for('static', filename='musica.mp3') }}" type="audio/mp3">
 </audio>
 
 <!-- GALERIA -->
 <div class="galeria">
   {% for i in range(1,10) %}
-    <img src="{{ url_for('static', filename='fotos/foto' ~ i ~ '.JPG') }}">
+    <img src="{{ url_for('static', filename='fotos/foto' ~ i ~ '.jpg') }}">
   {% endfor %}
 </div>
 
@@ -66,24 +61,22 @@ cada lembrança está guardada no meu coração 💞
 const btn = document.getElementById("btnMusica");
 const musica = document.getElementById("musica");
 
-let tocou = false;
+btn.addEventListener("click", function () {
 
-btn.addEventListener("click", () => {
-    if (tocou) return;
-
-    musica.volume = 1;
+    // FORÇA reset para evitar bloqueios
+    musica.pause();
+    musica.currentTime = 0;
 
     const playPromise = musica.play();
 
     if (playPromise !== undefined) {
-        playPromise.then(() => {
-            tocou = true;
-            btn.innerText = "A tocar 💞";
-            btn.style.animation = "none";
+        playPromise.then(function () {
+            btn.innerText = "A tocar ";
             btn.disabled = true;
-        }).catch(err => {
-            console.log("Erro áudio:", err);
-            alert("Toca novamente 💖");
+            btn.style.animation = "none";
+        }).catch(function (error) {
+            alert("O teu celular bloqueou o áudio. Tenta clicar novamente 💖");
+            console.log(error);
         });
     }
 });
