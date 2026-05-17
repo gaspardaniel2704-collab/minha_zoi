@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<title>Feliz Aniversário 💖</title>
+
+<style>
+.coracoes{
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.coracoes span{
+  position:absolute;
+  color:#fff;
+  font-size:30px;
+  animation: subir 8s linear infinite;
+  opacity:0.8;
+}
+
+@keyframes subir{
+  0%{transform:translateY(100vh); opacity:0;}
+  50%{opacity:1;}
+  100%{transform:translateY(-10vh); opacity:0;}
+}
+</style>
+</head>
+
+<body>
+<div class="coracoes"></div>
+
+<div class="container">
+<h1>Feliz Aniversário, Alzira 🎉💖</h1>
+
+<p>
+Que este novo ano da sua vida seja tão lindo quanto o seu sorriso,<br><br>
+tão leve quanto o seu abraço,<br><br>
+e tão especial quanto o seu coração.<br><br>
+
+🌹28 anos,era suposto seres a minha velhinha da lancha.But anyway😄<br><br>
+
+Eu te amo hoje…<br>
+amanhã…<br>
+e para sempre,minha Zoí. ✨
+</p>
+</div>
+
+<script>
+const container = document.querySelector('.coracoes');
+
+function criarCoracao(){
+  const coracao = document.createElement('span');
+  coracao.innerHTML = "💖";
+  coracao.style.left = Math.random() * 100 + "vw";
+  coracao.style.animationDuration = (Math.random()*3+5) + "s";
+  container.appendChild(coracao);
+
+  setTimeout(()=>{coracao.remove();},8000);
+}
+
+setInterval(criarCoracao, 400);
+</script>
+
+</body>
+</html>

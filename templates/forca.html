@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+#forca {
+    font-family: monospace;
+    font-size: 22px;
+    white-space: pre;
+    margin-top:20px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Descubra o teu presente</h2>
+<p>Dica: nunca para …assim como o que eu sinto por você</p>
+
+<p id="palavra"></p>
+
+<input id="letra" maxlength="1">
+<button onclick="tentar()">Tentar</button>
+
+<p>Erros: <span id="erros">0</span>/6</p>
+
+<div id="forca"></div>
+</div>
+
+<script>
+const palavra = "RELOGIO";
+let exibida = ["_","_","_","_","_","_","_"];
+let erros = 0;
+
+const bonecos = [
+`
+ +---+
+ |   |
+     |
+     |
+     |
+     |
+=======`,
+`
+ +---+
+ |   |
+ O   |
+     |
+     |
+     |
+=======`,
+`
+ +---+
+ |   |
+ O   |
+ |   |
+     |
+     |
+=======`,
+`
+ +---+
+ |   |
+ O   |
+/|   |
+     |
+     |
+=======`,
+`
+ +---+
+ |   |
+ O   |
+/|\\  |
+     |
+     |
+=======`,
+`
+ +---+
+ |   |
+ O   |
+/|\\  |
+/    |
+     |
+=======`,
+`
+ +---+
+ |   |
+ O   |
+/|\\  |
+/ \\  |
+     |
+=======`
+];
+
+function atualizar(){
+    document.getElementById("palavra").innerText = exibida.join(" ");
+    document.getElementById("erros").innerText = erros;
+    document.getElementById("forca").innerText = bonecos[erros];
+}
+
+function tentar(){
+    let letra = document.getElementById("letra").value.toUpperCase();
+    document.getElementById("letra").value = "";
+
+    if(!letra) return;
+
+    if(palavra.includes(letra)){
+        for(let i=0;i<palavra.length;i++){
+            if(palavra[i] === letra){
+                exibida[i] = letra;
+            }
+        }
+    } else {
+        erros++;
+    }
+
+    atualizar();
+
+    if(exibida.join("") === palavra){
+        setTimeout(()=>{
+            window.location.href = "/final";
+        }, 300);
+    }
+
+    if(erros >= 6){
+        setTimeout(()=>{
+            alert("Você perdeu! Tente novamente ❤️");
+            location.reload();
+        }, 300);
+    }
+}
+
+atualizar();
+</script>
+
+</body>
+</html>

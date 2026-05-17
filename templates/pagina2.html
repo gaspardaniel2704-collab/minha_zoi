@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<audio id="musica" autoplay loop>
+    <source src="{{ url_for('static', filename='musica.mp3') }}" type="audio/mp3">
+</audio>
+
+<div class="container">
+<h1>
+Cada momento passado juntos é uma lembrança…<br>
+cada lembrança está guardada no meu coração 💞
+</h1>
+
+<div class="galeria">
+  {% for i in range(1,10) %}
+    <img src="{{ url_for('static', filename='fotos/foto' ~ i ~ '.jpg') }}">
+  {% endfor %}
+</div>
+
+<br><br>
+<a href="{{ url_for('pagina3') }}"><button>Continuar 💖</button></a>
+
+</div>
+<script>
+document.addEventListener('click', function () {
+    const audio = document.getElementById('musica');
+    audio.play();
+});
+</script>
+<script>
+let tocou = false;
+
+function tocarMusica() {
+    if (!tocou) {
+        const audio = new Audio("{{ url_for('static', filename='musica.mp3') }}");
+        audio.loop = true;
+        audio.play();
+        tocou = true;
+    }
+}
+
+document.body.addEventListener('click', tocarMusica);
+</script>
+</body>
+</html>

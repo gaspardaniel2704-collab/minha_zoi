@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<video autoplay controls style="width:80%; border-radius:20px; margin-top:20px;">
+    <source src="{{ url_for('static', filename='video.mp4') }}" type="video/mp4">
+</video>
+
+<div class="container">
+<p>
+Algumas pessoas passam pela nossa vida…<br>
+outras mudam tudo.<br>
+Você não chegou fazendo barulho,<br>
+mas mudou o meu mundo inteiro em silêncio.<br><br>
+Hoje é o teu dia.<br>
+Isso aqui… é só pra você.
+</p>
+
+<a href="{{ url_for('pagina2') }}"><button>Continuar</button></a>
+</div>
+</body>
+</html>
